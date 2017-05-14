@@ -1,33 +1,30 @@
-export default class Stack<T> {
+export default class Queue<T> {
 
 	private items: T[] = [];
 
 	constructor(private readonly limit: number = Infinity) {
 	}
 
-	push(item: T): void {
+	enqueue(item: T): void {
 		if (this.size >= this.limit) {
-			throw new Error('Stack is full');
+			throw new Error('Queue is full')
 		}
 		this.items.push(item);
 	}
 
-	pop(): T {
+	dequeue(): T {
 		if (this.size < 1) {
-			throw new Error('Stack is empty');
+			throw new Error('Queue is empty')
 		}
-		return this.items.splice(-1, 1)[0];
-	}
-
-	peek(): T {
-		return this.items[this.size - 1];
+		return this.items.splice(0, 1)[0];
 	}
 
 	isEmpty(): boolean {
 		return this.size === 0;
 	}
 
-	get size(): number {
+	get size() {
 		return this.items.length;
 	}
+
 }
