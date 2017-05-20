@@ -44,4 +44,23 @@ describe('Stack class', () => {
 		expect(stack.size).toEqual(2);
 		expect(stack.isEmpty()).toBe(false);
 	});
+
+	it('has method clear', () => {
+		stack.push(10);
+		expect(stack.isEmpty()).toBe(false);
+		stack.clear();
+		expect(stack.isEmpty()).toBe(true);
+	});
+
+	it('could be serialized', () => {
+		expect(stack.toString()).toEqual('');
+		stack.push(12);
+		expect(stack.toString()).toEqual('12');
+		stack.push(13);
+		expect(stack.toString()).toEqual('12,13');
+		stack.pop();
+		expect(stack.toString()).toEqual('12');
+		stack.pop();
+		expect(stack.toString()).toEqual('');
+	});
 });

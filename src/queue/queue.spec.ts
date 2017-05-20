@@ -33,4 +33,24 @@ describe('Queue class', () => {
 		expect(() => queue.dequeue()).toThrow();
 	});
 
+	it('has method clear', () => {
+		queue.enqueue(10);
+		expect(queue.isEmpty()).toBe(false);
+		queue.clear();
+		expect(queue.isEmpty()).toBe(true);
+	});
+
+
+	it('could be serialized', () => {
+		expect(queue.toString()).toEqual('');
+		queue.enqueue(12);
+		expect(queue.toString()).toEqual('12');
+		queue.enqueue(13);
+		expect(queue.toString()).toEqual('12,13');
+		queue.dequeue();
+		expect(queue.toString()).toEqual('13');
+		queue.dequeue();
+		expect(queue.toString()).toEqual('');
+	});
+
 });

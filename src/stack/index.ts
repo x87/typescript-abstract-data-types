@@ -1,33 +1,46 @@
 export default class Stack<T> {
 
-	private items: T[] = [];
+	private items: T[];
+	private top: number = 0;
 
-	constructor(private readonly limit: number = Infinity) {
+	constructor(private readonly limit: number) {
+		this.items = new Array<T>(limit);
 	}
 
 	push(item: T): void {
-		if (this.size >= this.limit) {
+		if (this.top === this.limit) {
 			throw new Error('Stack is full');
 		}
-		this.items.push(item);
+		this.items[this.top++] = item;
 	}
 
 	pop(): T {
-		if (this.size < 1) {
+		if (this.top < 1) {
 			throw new Error('Stack is empty');
 		}
-		return this.items.splice(-1, 1)[0];
+		return this.items[--this.top];
 	}
 
 	peek(): T {
-		return this.items[this.size - 1];
-	}
-
-	isEmpty(): boolean {
-		return this.size === 0;
+		if (this.top < 1) {
+			throw new Error('Stack is empty');
+		}
+		return this.items[this.top - 1];
 	}
 
 	get size(): number {
-		return this.items.length;
+		return this.top;
+	}
+
+	isEmpty(): boolean {
+		return this.top === 0;
+	}
+
+	clear() {
+		this.top = 0;
+	}
+
+	toString(): string {
+		return this.items.slice(0, this.top).toString();
 	}
 }

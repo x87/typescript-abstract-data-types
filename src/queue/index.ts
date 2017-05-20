@@ -1,30 +1,48 @@
 export default class Queue<T> {
 
-	private items: T[] = [];
+	private items: T[];
+	private head: number = 0;
+	private tail: number = 0;
+	private count: number = 0;
 
-	constructor(private readonly limit: number = Infinity) {
+	constructor(private readonly limit: number) {
+		this.items = new Array<T>(limit);
 	}
 
 	enqueue(item: T): void {
-		if (this.size >= this.limit) {
+		if (this.count === this.limit) {
 			throw new Error('Queue is full')
 		}
-		this.items.push(item);
+		this.count++;
+		this.items[this.tail++] = item;
+		this.tail %= this.limit;
 	}
 
 	dequeue(): T {
-		if (this.size < 1) {
+		if (this.count === 0) {
 			throw new Error('Queue is empty')
 		}
-		return this.items.splice(0, 1)[0];
-	}
-
-	isEmpty(): boolean {
-		return this.size === 0;
+		this.count--;
+		this.head %= this.limit;
+		return this.items[this.head++] as T;
 	}
 
 	get size() {
-		return this.items.length;
+		return this.count;
+	}
+
+	isEmpty(): boolean {
+		return this.count === 0;
+	}
+
+	clear(): void {
+		this.tail = 0;
+		this.head = this.limit;
+		this.count = 0;
+	}
+
+	toString(): string {
+		return this.items.slice(this.head % this.limit, this.tail).toString();
 	}
 
 }
